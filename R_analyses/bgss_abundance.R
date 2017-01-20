@@ -28,7 +28,8 @@ for(i in 1:ncol(trapDates)){
 trapDates <- trapDates[,-which(allNA)]
 
 # Remove weekday from date entries
-i <- 1
+#i <- 1
 for(i in 1:ncol(trapDates)){
-  trapDates[,i] <- trapDates[,i] %>% tstrsplit(., " - ", fixed = TRUE)[[2]] %>% as.vector() %>% dmy()
+  trapDates[,i] <- tstrsplit(trapDates[,i], " - ", fixed = TRUE)[[2]] %>% as.vector() %>% mdy()
 }
+
