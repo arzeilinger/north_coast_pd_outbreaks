@@ -36,18 +36,16 @@ head(sonomaData)
 
 #### Get dates recognized by R and remove weekday from date entries
 #i <- 1
-for(i in 1:ncol(sonomaData)){
-  if(any(grep("Deployed", names(sonomaData)[i]), grep("Date", names(sonomaData)[i]))){ 
-    sonomaData[,i] <- tstrsplit(sonomaData[,i], " - ", fixed = TRUE)[[2]] %>% as.vector() %>% mdy()
-  }
+dateColumns <- c(grep("Deployed", names(sonomaData)), grep("Date", names(sonomaData))) # All columns with dates in them
+for(i in dateColumns){
+  sonomaData[,i] <- tstrsplit(sonomaData[,i], " - ", fixed = TRUE)[[2]] %>% as.vector() %>% mdy()
 }
-
+head(sonomaData)
 
 #### Add trap count columns to dates data
-trapCounts <- sonomaData %>% dplyr::select(., contains("Trap_Count"))
 # Convert column class to numeric
-for(i in 1:ncol(trapCounts)){
-  trapCounts[,i] <- factor2numeric(trapCounts[,i])
+for(i in grep("Trap_Count", names(sonomaData))){
+    sonomaData[,i] <- factor2numeric(sonomaData[,i])
 }
-str(trapCounts)
-trapData <- cbind(trapDates, trapCounts, sonomaData$vysite)
+head(sonomaData)
+str(sonomaData)
