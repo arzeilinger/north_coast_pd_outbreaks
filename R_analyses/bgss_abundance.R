@@ -67,12 +67,12 @@ trapCounts <- trapCounts %>% dplyr::filter(., !is.na(date) & !is.na(trap_count))
 head(trapCounts)
 str(trapCounts)
 
-
+#### Summarize data for each vineyard site and each trap changing event
 trapSummary <- trapCounts %>% group_by(vysite, date_num) %>% summarise(meanDate = mean(date), meanCount = mean(trap_count))
 
 #### Make some figures
 
-# Simple time-series plot with each vineyard site as a line
+# Simple time-series plot with each vineyard site as different colored points
 timeSeriesPlot <- ggplot(data=trapSummary, aes(x=meanDate, y=meanCount)) +
   #geom_line(aes(colour=vysite), size=1.25) +
   geom_point(aes(colour=vysite), size=2.5) +
